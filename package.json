@@ -1,11 +1,20 @@
 {
-  "name": "rate-the-day",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+	"name": "rate-the-day",
+	"module": "index.js",
+	"type": "module",
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"scripts": {
+		"dev": "bun run --hot src/index.js"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"dayjs": "^1.11.12",
+		"jsonwebtoken": "^9.0.2",
+		"mongodb": "^6.8.0"
+	}
 }

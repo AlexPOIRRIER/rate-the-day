@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Rate the day</title>
+		<script
+			src="https://unpkg.com/htmx.org@2.0.1"
+			integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/"
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<main>
+			<h1>How was your day ?</h1>
+			<form hx-post="/register" hx-swap="none" class="auth_form">
+				<section>
+					<label for="email">Email </label>
+					<input type="email" name="email" placeholder="Enter your email" />
+					<!-- Your email is only use to recover account -->
+					<label for="username">Username </label>
+					<input
+						type="text"
+						name="username"
+						placeholder="Enter your username"
+					/>
+					<label for="password">Password </label>
+					<input
+						type="password"
+						name="password"
+						placeholder="Enter your password"
+					/>
+					<button type="submit">Register</button>
+				</section>
+			</form>
+		</main>
+		<script>
+			document.addEventListener("htmx:afterOnLoad", event => {
+				if (event.detail.xhr.responseURL.includes("/register")) {
+					const { token } = JSON.parse(event.detail.xhr.responseText);
+
+					localStorage.setItem("token", token);
+
+					htmx.config.ajax = (url, body, config) => {
+						if (!config.headers) {
+							config.headers = {};
+						}
+
+						config.headers.Authorization = `Bearer ${token}`;
+
+						return htmx.ajax(url, body, config);
+					};
+
+					return window.location.replace("/");
+				}
+			});
+		</script>
+	</body>
+</html>
